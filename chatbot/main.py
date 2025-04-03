@@ -1,6 +1,8 @@
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from models.chat import ChatRequest
+from services.chat import llm
+
 app = FastAPI()
 
 @app.get("/")
@@ -9,4 +11,10 @@ async def root():
 
 @app.post("/chat")
 async def chat(chat_request: ChatRequest):
-    return JSONResponse(content={"message": f"{chat_request.message} from {chat_request.user}"}, status_code=status.HTTP_200_OK)
+    prompt=f"""
+    you are a friendly chatbot who responds to messages
+    the user who has sent you a message is called {chat_request.user}
+    the message is {chat_request.message}
+    """
+    response= await llm.ainvoke(prompt)
+    return JSONResponse(content={"message": response}, status_code=status.HTTP_200_OK)
