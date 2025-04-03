@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return JSONResponse(content={"message": "Hello!"}, status_code=status.HTTP_200_OK)
+    return JSONResponse(content={"message": "Hello! from chatbot"}, status_code=status.HTTP_200_OK)
 
 @app.post("/chat")
 async def chat(chat_request: ChatRequest):
